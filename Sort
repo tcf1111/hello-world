@@ -1,0 +1,140 @@
+// Sort_Methods by_tcf.
+
+#include<stdio.h>
+#include<string.h>
+#define MAXN 100+10
+
+int array[MAXN];
+void Bubble_sort(int array[],int len);
+void Insert_sort(int array[],int len);
+void Select_sort(int array[],int len);
+void Quick_sort(int array[],int start,int end);
+void Binary_search(int array[],int goal,int len);
+
+int main(void)
+{
+    int i=0,j=0,len=0,x;
+    memset(array,0,sizeof(array));
+    printf("Please input some numbers:\n");
+    do
+    {
+        scanf("%d",&array[len]);
+        len++;
+    }
+    while(getchar()!='\n');
+
+//    Bubble_sort(array,len);
+//    Insert_sort(array,len);
+//    Select_sort(array,len);
+    Quick_sort(array,0,len-1);
+    printf("find:\n");
+    scanf("%d",&x);
+    for(i=0; i<len; i++)
+        printf("%d ",array[i]);
+    Binary_search(array,x,len);
+    return 0;
+}
+
+
+/*Bubble_sort*/
+void Bubble_sort(int array[],int len)
+{
+    int i,j,temp;
+    for(i=0; i<len; i++)
+        for(j=1; j<len; j++)
+        {
+            if(array[j-1]>array[j])
+            {
+                temp=array[j-1];
+                array[j-1]=array[j];
+                array[j]=temp;
+            }
+        }
+}
+
+
+/*Insert_sort*/
+void Insert_sort(int array[],int len)
+{
+    int i,j,temp;
+    for(i=1; i<len; i++)
+    {
+        temp=array[i];
+        for(j=i-1; j>=0; j--)
+        {
+            if(array[j]>=temp)
+                array[j+1]=array[j];
+            else
+                break;
+        }
+        array[j+1]=temp;
+    }
+}
+
+
+/*Select_sort*/
+void Select_sort(int array[],int len)
+{
+    int i,j,temp;
+    for(i=0; i<len; i++)
+    {
+        for(j=i+1; j<len; j++)
+        {
+            if(array[j]<array[i])
+            {
+                temp=array[j];
+                array[j]=array[i];
+                array[i]=temp;
+            }
+        }
+    }
+}
+
+
+
+/*Quick_sort*/
+void Quick_sort(int array[],int start,int end)
+{
+    if(start<end)
+    {
+        int i=start,j=end;
+        int x=array[i];
+        while(i<j)
+        {
+            while(i<j&&array[j]>x)
+                j--;
+            if(i<j)
+                array[i++]=array[j];
+            while(i<j&&array[i]<x)
+                i++;
+            if(i<j)
+                array[j--]=array[i];
+        }
+        array[i]=x;
+        Quick_sort(array,start,i-1);
+        Quick_sort(array,i+1,end);
+    }
+}
+
+
+
+/*Binary_search*/
+void Binary_search(int array[],int goal,int len)
+{
+    int start=0,end=len-1,mid=0;
+    while(start<=end)
+    {
+        mid=(start+end)/2;
+        if(goal==array[mid])
+        {
+            printf("\n At <%d>",mid+1);
+            return;
+        }
+        if(goal<array[mid])
+            end=mid-1;
+        if(goal>array[mid])
+            start=mid+1;
+    }
+    printf("\n not found!");
+    return;
+}
